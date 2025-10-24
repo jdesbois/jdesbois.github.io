@@ -60,8 +60,7 @@ envs.forEach(env => {
         .then(response => {
          if (response.ok) {
             response.json().then(data => {
-                console.log(data);
-                createEntry(data, service);
+                createEntry(data, service, env);
             })
          } else {
             createError(error, service)
@@ -88,13 +87,13 @@ function createError(error, service) {
     pageTable.append(errorTr)
 
 }
-function createEntry(data, service) {
+function createEntry(data, service, env) {
     const entryTr = document.createElement("tr");
     const platformtd = document.createElement("td");
     const servicetd = document.createElement("td");
     const versiontd = document.createElement("td");
 
-    platformtd.append(data.Platform);
+    platformtd.append(env.env);
     servicetd.append(service.name);
     versiontd.append(data.Version)
     entryTr.append(platformtd)
