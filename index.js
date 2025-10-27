@@ -49,13 +49,21 @@ const services = [
     },
 
 ]
-const envs = [{"env":"dev", "region": "weu"}, {"env":"ptydev", "region": "eus"}]
+const envs = [{
+    "env":"dev", 
+    "region": "weu"
+    }, 
+    {
+    "env":"ptydev", 
+    "region": "eus"
+    }
+    ]
 
 const pageTable = document.getElementById("service-table");
 
 envs.forEach(env => {
     services.forEach(service => {
-        const requestURL = "http://slack.pitpatclub.com/api/VersionStatus"
+        const requestURL = "https://slack.pitpatclub.com/api/VersionStatus"
         fetch(requestURL, {
             method: 'POST',
             body: JSON.stringify({
@@ -63,7 +71,10 @@ envs.forEach(env => {
                 "Service": service.name,
                 "Type": service.type,
                 "Region": env.region
-            })
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
         } )
         .then(response => {
          if (response.ok) {
