@@ -53,38 +53,32 @@ const envs = [{"env":"dev", "region": "weu"}, {"env":"ptydev", "region": "eus"}]
 
 const pageTable = document.getElementById("service-table");
 
-// envs.forEach(env => {
-//     services.forEach(service => {
-//         const requestURL = `https://${env.env}-${service.name}-${service.type}-${env.region}.azurewebsites.net/api/V2/version`
-//         fetch(requestURL)
-//         .then(response => {
-//          if (response.ok) {
-//             response.json().then(data => {
-//                 createEntry(data, service, env);
-//             })
-//          } else {
-//             createError(error, service)
-//          }   
-//         })
-//         .catch(error => {
-//             createError(error, service)
-//         })
-//     });
-// })
-
-fetch("https://slack.pitpatclub.com/api/VersionStatus")
-    .then(response => {
-        if(response.ok) {
-            response.json().then(data => {
-                createEntry(data, "LegacyAPI", "Dev")
+envs.forEach(env => {
+    services.forEach(service => {
+        const requestURL = "http://slack.pitpatclub.com/api/VersionStatus"
+        fetch(requestURL, {
+            method: 'POST',
+            body: JSON.stringify({
+                "Env": env.env,
+                "Service": service.name,
+                "Type": service.type,
+                "Region": env.region
             })
-        } else {
-            createError(error, "LegacyAPI")
-        }
-    })
-    .catch(error => {
-        createError(error, "LegeacyAPI")
-    })
+        } )
+        .then(response => {
+         if (response.ok) {
+            response.json().then(data => {
+                createEntry(data, service, env);
+            })
+         } else {
+            createError(error, service)
+         }   
+        })
+        .catch(error => {
+            createError(error, service)
+        })
+    });
+})
 
 function createError(error, service) {
     const errorTr = document.createElement("tr");
