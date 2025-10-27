@@ -55,7 +55,7 @@ const pageTable = document.getElementById("service-table");
 
 envs.forEach(env => {
     services.forEach(service => {
-        const requestURL = `http://jdesbois.bounceme.net:8088/https://${env.env}-${service.name}-${service.type}-${env.region}.azurewebsites.net/api/V2/version`
+        const requestURL = `https://${env.env}-${service.name}-${service.type}-${env.region}.azurewebsites.net/api/V2/version`
         fetch(requestURL)
         .then(response => {
          if (response.ok) {
