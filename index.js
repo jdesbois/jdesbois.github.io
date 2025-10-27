@@ -71,6 +71,7 @@ const pageTable = document.getElementById("service-table");
 //         })
 //     });
 // })
+
 fetch("https://slack.pitpatclub.com/api/VersionStatus")
     .then(response => {
         if(response.ok) {
