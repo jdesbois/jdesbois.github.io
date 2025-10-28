@@ -46,8 +46,7 @@ const services = [
     {
     "name":"Subscriptions",
     "type": "WA1"
-    },
-
+    }
 ]
 const envs = [{
     "env":"dev", 
@@ -110,13 +109,28 @@ function createEntry(data, service, env) {
     const platformtd = document.createElement("td");
     const servicetd = document.createElement("td");
     const versiontd = document.createElement("td");
+    
 
     platformtd.append(env.env);
     servicetd.append(service.name);
     versiontd.append(data.Version)
+
+
     entryTr.append(platformtd)
     entryTr.append(servicetd)
     entryTr.append(versiontd)
 
+    const array = Object.keys(data.Connections).map((key) => [key,data.Connections[key]]);
+
+    array.forEach(element => {
+        entryTr.append(createConnectionEntry(element))
+    });
+
     pageTable.append(entryTr);
+}
+
+function createConnectionEntry(Connection) {
+    const connectionstd = document.createElement("td");
+    connectionstd.append(Connection[0] + ":" + Connection[1])
+    return connectionstd;
 }
